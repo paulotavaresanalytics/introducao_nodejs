@@ -1,0 +1,23 @@
+### 1. Listar produtos
+GET http://localhost:3000/api/produtos
+
+### 2. Criar produto
+POST http://localhost:3000/api/produtos
+Content-Type: application/json
+
+{
+  "nome": "Produto C",
+  "preco": 40
+}
+
+### 3. Atualizar produto
+PUT http://localhost:3000/api/produtos/1
+Content-Type: application/json
+
+{
+  "nome": "Produto Atualizado",
+  "preco": 60
+}
+
+### 4. Excluir produto
+DELETE http://localhost:3000/api/produtos/1
