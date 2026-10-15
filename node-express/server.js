@@ -1,14 +1,19 @@
-// Importa o módulo HTTP
-const http = require('http');
-// Define a porta do servidor
+const express = require("express");
+const morgan = require("morgan"); // Importa o Morgan para log de requisições
+const app = express();
 const PORT = 3000;
-// Cria o servidor com uma única rota
-const server = http.createServer((req, res) => {
-  res.setHeader('Content-Type', 'text/plain');
-  res.statusCode = 200;
-  res.end('Bem-vindo ao nosso Servidor Node.js!');
+// Configura o Morgan como middleware global para log de requisições
+app.use(morgan("dev"));
+// Rota para a página inicial
+app.get("/", (req, res) => {
+      res.json({ message: "Página inicial" }); // Resposta em JSON
+});
+// Rota para a página "sobre"
+app.get("/sobre", (req, res) => {
+      res.json({ message: "Página sobre" }); // Resposta em JSON
 });
 // Inicia o servidor
-server.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
-}); 
+app.listen(PORT, () => {
+      console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
+    
