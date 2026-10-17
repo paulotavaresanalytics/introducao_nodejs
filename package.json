@@ -1,0 +1,7 @@
+{
+  "name": "introducao_nodejs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Exercícios de Node.js: do servidor HTTP nativo às APIs com Express, MySQL e MongoDB. Cada pasta é um projeto independente; entre em uma delas e rode npm install.",
+  "license": "MIT"
+}

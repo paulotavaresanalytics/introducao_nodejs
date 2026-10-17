@@ -1,56 +1,61 @@
-# Node.js: Introdução ao Desenvolvimento de APIs Modernas
+# Node.js para Dados e Back-end: projetos práticos
 
-![Node.js](https://img.shields.io/badge/Node.js-22-339933?logo=node.js&logoColor=white)
-![Express](https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)
-![Status](https://img.shields.io/badge/status-concluído-brightgreen)
-
-Coleção de projetos práticos em **Node.js** desenvolvidos durante o curso *Node.js: Introdução ao Desenvolvimento de APIs Modernas*. O repositório vai do servidor HTTP nativo até APIs REST conectadas a bancos de dados **MySQL** e **MongoDB**.
+Repositório com os exercícios que desenvolvi no curso **Node.js: Introdução ao Desenvolvimento de APIs Modernas**. Ele mostra, passo a passo, como um sistema recebe pedidos, consulta informações em um banco de dados e devolve respostas, do jeito que aplicações reais fazem.
 
 ---
 
-## Tecnologias
+## O que é Node.js?
 
-Node.js · JavaScript · Express 5 · REST · MySQL (`mysql2`) · MongoDB (Mongoose) · Morgan · dotenv
+Node.js é uma ferramenta que permite usar a linguagem **JavaScript** fora do navegador, para construir o "lado de trás" de sistemas: o servidor que guarda, organiza e entrega as informações.
 
-## Destaques
-
-- **API REST com arquitetura em camadas:** rotas separadas da lógica de negócio (`routes.js` e `controllers/`), com respostas em JSON e códigos de status HTTP adequados (200, 201, 400, 404, 500).
-- **Persistência em MySQL com consultas parametrizadas:** os valores são enviados como parâmetros (`?`), evitando SQL injection.
-- **Modelagem com Mongoose:** schemas com validações de campo (obrigatório, valor mínimo, unicidade e formato de e-mail).
-- **Configuração sensível fora do código:** a senha do banco é lida de variável de ambiente com `dotenv`.
-- **Projetos independentes:** cada pasta tem seu próprio `package.json` e pode ser executada isoladamente.
+Uma analogia: se um site ou aplicativo fosse um restaurante, a tela seria o salão, onde o cliente faz o pedido, e o Node.js seria a cozinha, que recebe o pedido, busca os ingredientes (os dados) e entrega o prato pronto.
 
 ---
 
-## Estrutura do repositório
+## Para que o Node.js é usado na área de dados
 
-| Pasta | O que tem |
-|---|---|
-| `servidor-simples/` | Servidor HTTP com o módulo nativo `http`, sem frameworks |
-| `servidor-http/` | **API REST de produtos** com rotas, controller e requisições de teste |
-| `node-express/` | Servidor com Express.js, rotas e log de requisições com Morgan |
-| `node-banco/` | API de usuários com CRUD conectada ao MySQL |
-| `node-mogoose/` | API de usuários com CRUD conectada ao MongoDB via Mongoose |
-| `bancos_de_dados/` | Scripts SQL de criação do banco e da tabela de exemplo |
-| `mongo_db/` | Playground do MongoDB para criar a coleção de exemplo |
-| `aula01/` | Anotações de exercícios de JavaScript (não é um projeto executável) |
+O Node.js é muito usado em empresas que lidam com informação em tempo real. Alguns exemplos:
+
+- **APIs de dados:** um serviço que entrega dados de vendas, estoque ou clientes para painéis (dashboards), sites e aplicativos, sempre no formato que eles entendem.
+- **Painéis em tempo real:** indicadores que se atualizam sozinhos, como vendas do dia ou acessos a um site, sem precisar recarregar a página.
+- **Pipelines de dados:** programas que coletam informações de várias fontes, transformam e gravam em um banco de dados. Esse trabalho de "pegar, organizar e guardar" é conhecido como ETL.
+- **Coleta automática (web scraping e integrações):** robôs que buscam preços, notícias ou dados de outros sistemas por meio de suas APIs.
+- **Integração entre sistemas:** conectar uma loja virtual, um sistema de pagamento e uma planilha, para que os dados circulem sem digitação manual.
+- **Disponibilizar modelos de inteligência artificial:** um modelo de previsão treinado em Python, por exemplo, pode ser exposto como uma API para que outros sistemas façam perguntas a ele.
+
+Em resumo: quando uma empresa precisa que seus dados **cheguem a quem precisa, no momento certo**, o Node.js costuma fazer parte dessa engrenagem.
 
 ---
 
-## Como executar
+## O que você encontra neste repositório
 
-Cada projeto é independente. **Recomendo começar pelo `servidor-http/`**, que não exige nenhum banco de dados.
+Cada pasta é um projeto pequeno que mostra uma etapa desse caminho:
 
-### Opção 1: GitHub Codespaces (sem instalar nada)
+| Pasta | O que ela demonstra | Em linguagem simples |
+|---|---|---|
+| `servidor-simples/` | Um servidor que responde a pedidos | O primeiro "atendente" digital, que recebe um pedido e responde |
+| `servidor-http/` | Uma API REST de produtos | Um catálogo que permite listar, criar, alterar e remover itens pela internet |
+| `node-express/` | Um servidor com rotas organizadas e registro de acessos | Um sistema que sabe o caminho de cada pedido e anota quem acessou o quê |
+| `node-banco/` | Uma API de usuários conectada ao MySQL | Um cadastro guardado em um banco de dados relacional (tabelas, parecidas com planilhas) |
+| `node-mogoose/` | Uma API de usuários conectada ao MongoDB | O mesmo cadastro, mas guardado em um banco de dados de documentos, mais flexível |
+| `bancos_de_dados/` | Scripts para criar o banco e a tabela | A "estrutura" que recebe os dados |
+| `mongo_db/` | Roteiro para criar a coleção no MongoDB | O mesmo papel do script anterior, para o MongoDB |
+| `aula01/` | Anotações de exercícios de JavaScript | Os primeiros passos da linguagem |
 
-O Codespaces roda o projeto em um ambiente pronto, direto no navegador.
+**Conceitos aplicados:** API REST (comunicação entre sistemas por meio de pedidos padronizados), operações de **CRUD** (criar, ler, atualizar e excluir dados), separação entre rotas e lógica de negócio, validação de dados, respostas com códigos de status (como 200 para sucesso e 404 para "não encontrado"), e consultas protegidas contra SQL injection.
 
-1. Na página do repositório, clique no botão verde **Code**.
+---
+
+## Como executar o projeto
+
+Você não precisa instalar nada no seu computador para começar. A **Parte 1** usa o GitHub Codespaces, que roda o projeto na nuvem, direto no navegador. A **Parte 2** é para quem prefere trabalhar no seu próprio computador com o VS Code.
+
+### Parte 1: GitHub Codespaces (no navegador)
+
+1. Na página deste repositório, clique no botão verde **Code**.
 2. Abra a aba **Codespaces** e clique em **Create codespace on main**.
-3. Aguarde o VS Code abrir no navegador. Ele já vem com Node.js e npm instalados.
-4. No terminal, execute:
+3. Aguarde alguns instantes. O VS Code abrirá no navegador com o projeto pronto.
+4. Abra o terminal (menu **Terminal → New Terminal**) e digite os comandos abaixo, um por vez, apertando Enter após cada um:
 
    ```bash
    cd servidor-http
@@ -58,24 +63,43 @@ O Codespaces roda o projeto em um ambiente pronto, direto no navegador.
    npm start
    ```
 
-5. Quando aparecer a notificação de porta, clique em **Open in Browser**. Se não aparecer, abra a aba **Ports** e clique no link da porta `3000`.
-6. Adicione `/api/produtos` ao final da URL para ver a lista de produtos.
+   - `cd servidor-http` entra na pasta do projeto.
+   - `npm install` baixa as ferramentas que o projeto precisa. Leva alguns segundos.
+   - `npm start` liga o servidor.
 
-### Opção 2: VS Code com o repositório clonado
+5. Quando aparecer a notificação de porta, clique em **Open in Browser**. Se ela não aparecer, abra a aba **Ports** e clique no link da porta `3000`.
+6. No fim do endereço do navegador, acrescente `/api/produtos` e pressione Enter. Você verá a lista de produtos em formato JSON, que é o formato que sistemas usam para trocar dados.
 
-**Pré-requisitos:** [Git](https://git-scm.com/), [Node.js](https://nodejs.org/) (versão LTS recente; os projetos foram testados com a 22) e [VS Code](https://code.visualstudio.com/).
+Para parar o servidor, clique no terminal e pressione `Ctrl+C`.
 
-1. Clone o repositório pelo terminal:
+### Parte 2: VS Code no seu computador
+
+**O que você precisa instalar antes:**
+
+- [Git](https://git-scm.com/): ferramenta que baixa projetos do GitHub.
+- [Node.js](https://nodejs.org/) na versão LTS recente (os projetos foram testados com a versão 22).
+- [VS Code](https://code.visualstudio.com/): o editor de código.
+
+**Passo a passo:**
+
+1. Abra o terminal do seu computador (no Windows, use o *Prompt de Comando* ou o *PowerShell*; no macOS e Linux, use o *Terminal*) e clone o repositório. Clonar significa copiar o projeto do GitHub para o seu computador:
 
    ```bash
    git clone https://github.com/paulotavaresanalytics/introducao_nodejs.git
+   ```
+
+2. Entre na pasta que foi criada e abra o projeto no VS Code:
+
+   ```bash
    cd introducao_nodejs
    code .
    ```
 
-   Também é possível clonar pelo próprio VS Code: pressione `Ctrl+Shift+P` (ou `Cmd+Shift+P` no macOS), digite **Git: Clone** e cole a URL do repositório.
+   Se o comando `code .` não funcionar, abra o VS Code manualmente e escolha **File → Open Folder**, depois selecione a pasta `introducao_nodejs`.
 
-2. Abra o terminal integrado (`Ctrl+'`) e execute:
+   Também é possível clonar pelo próprio VS Code: pressione `Ctrl+Shift+P` (ou `Cmd+Shift+P` no macOS), digite **Git: Clone**, cole o endereço do repositório e escolha onde salvá-lo.
+
+3. No VS Code, abra o terminal integrado (atalho `Ctrl+'`) e rode, dentro da pasta do projeto:
 
    ```bash
    cd servidor-http
@@ -83,40 +107,56 @@ O Codespaces roda o projeto em um ambiente pronto, direto no navegador.
    npm start
    ```
 
-3. Acesse [http://localhost:3000/api/produtos](http://localhost:3000/api/produtos) no navegador.
+4. Acesse [http://localhost:3000/api/produtos](http://localhost:3000/api/produtos) no navegador. Você verá a mesma lista de produtos da Parte 1.
+
+Para parar o servidor, volte ao terminal e pressione `Ctrl+C`.
 
 ---
 
-## Testando a API
+## Testando as rotas sem programar
 
-Os projetos de API têm arquivos `request/testes.rest` com as requisições prontas. Para usá-los, instale a extensão **REST Client** no VS Code, abra o arquivo e clique em **Send Request** acima de cada requisição.
+Os projetos de API têm arquivos `request/testes.rest` com os pedidos já escritos. Para usá-los:
 
-Também é possível testar pelo terminal:
-
-```bash
-curl http://localhost:3000/api/produtos
-```
+1. Instale a extensão **REST Client** no VS Code (ícone de extensões, na barra lateral).
+2. Abra um arquivo `testes.rest`, por exemplo `servidor-http/request/testes.rest`.
+3. Clique em **Send Request** acima de cada pedido e veja a resposta ao lado.
 
 ---
 
 ## Executando os demais projetos
 
-| Projeto | Comando | Requisito extra |
+| Projeto | Como rodar | O que precisa além do Node.js |
 |---|---|---|
-| `servidor-simples/` | `node server.js` | Nenhum |
-| `servidor-http/` | `npm install` e `npm start` | Nenhum |
-| `node-express/` | `npm install` e `npm start` | Nenhum |
-| `node-banco/` | `npm install` e `npm start` | MySQL em execução e arquivo `.env` com `DB_PASSWORD` |
-| `node-mogoose/` | `npm install` e `npm start` | MongoDB em execução em `localhost:27017` |
+| `servidor-simples/` | `npm start` | Nada |
+| `servidor-http/` | `npm install` e `npm start` | Nada |
+| `node-express/` | `npm install` e `npm start` | Nada |
+| `node-banco/` | `npm install` e `npm start` | Um servidor MySQL (veja abaixo) |
+| `node-mogoose/` | `npm install` e `npm start` | Um servidor MongoDB rodando em `localhost:27017` |
 
-**Sobre o `node-banco/`:** a conexão usa o banco `cadastro_usuarios` com o usuário `app_node`, configurados em `config/db.js`. Crie esse banco e esse usuário no MySQL, ou ajuste os dados no arquivo, antes de iniciar a aplicação.
+Os quatro primeiros projetos rodam sozinhos. Os dois últimos precisam de um banco de dados, e isso é opcional para entender o código.
 
-**Sobre o `node-mogoose/`:** a aplicação se conecta a `mongodb://localhost:27017/exemplo_nosql`. Caso use o MongoDB Atlas ou outro servidor, altere a string de conexão em `config/db.js`.
+### Preparando o banco do `node-banco` (MySQL)
+
+1. Com o MySQL instalado, crie o banco, a tabela e o usuário executando o script `bancos_de_dados/cadastro_usuarios.sql`. Antes, troque `troque_esta_senha` por uma senha de sua escolha.
+2. Na pasta `node-banco/`, copie o arquivo `.env.example` e renomeie a cópia para `.env`. Nele, coloque a mesma senha usada no script.
+3. Rode `npm start` na pasta `node-banco/`.
+
+Se o `.env` não existir, o projeto usa os valores padrão do código. Ainda assim, o banco precisa estar criado com a senha correspondente.
+
+### Preparando o `node-mogoose` (MongoDB)
+
+A conexão aponta para `mongodb://localhost:27017/exemplo_nosql`. Se você tiver o MongoDB rodando localmente, basta executar `npm start`. Para usar outro servidor, como o MongoDB Atlas, altere a string de conexão em `node-mogoose/config/db.js`.
+
+---
+
+## Tecnologias
+
+Node.js · JavaScript · Express 5 · API REST · MySQL (`mysql2`) · MongoDB (Mongoose) · Morgan · dotenv
 
 ---
 
 ## Autor
 
-**Paulo Tavares**: [GitHub](https://github.com/paulotavaresanalytics)
+**Paulo Tavares** · [GitHub](https://github.com/paulotavaresanalytics)
 
 Projeto sob a licença [MIT](LICENSE).
