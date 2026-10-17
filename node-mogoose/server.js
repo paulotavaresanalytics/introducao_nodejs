@@ -2,7 +2,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 const usuarioRoutes = require("./routes/usuarioRoutes");
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
     
 // Conectar ao MongoDB
 connectDB();

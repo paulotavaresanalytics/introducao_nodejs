@@ -46,70 +46,72 @@ Cada pasta é um projeto pequeno que mostra uma etapa desse caminho:
 
 ---
 
-## Como executar o projeto
+## Executar e verificar rapidamente
 
-Você não precisa instalar nada no seu computador para começar. A **Parte 1** usa o GitHub Codespaces, que roda o projeto na nuvem, direto no navegador. A **Parte 2** é para quem prefere trabalhar no seu próprio computador com o VS Code.
+Requer **Node.js 24 LTS** (versão declarada em `.nvmrc`). Cada pasta é uma aplicação independente. Não há etapa de build. A API de produtos é o ponto de entrada recomendado para conhecer o projeto.
 
-### Parte 1: GitHub Codespaces (no navegador)
+### GitHub Codespaces
 
-1. Na página deste repositório, clique no botão verde **Code**.
-2. Abra a aba **Codespaces** e clique em **Create codespace on main**.
-3. Aguarde alguns instantes. O VS Code abrirá no navegador com o projeto pronto.
-4. Abra o terminal (menu **Terminal → New Terminal**) e digite os comandos abaixo, um por vez, apertando Enter após cada um:
+1. Abra **Code → Codespaces → Create codespace on main** após esta configuração estar na branch.
+2. A configuração `.devcontainer` prepara Node.js, instala as dependências e inicia MySQL e MongoDB com verificações de disponibilidade. Aguarde a criação terminar.
+3. No terminal da raiz, execute:
 
    ```bash
+   npm run test:all
    cd servidor-http
-   npm install
    npm start
    ```
 
-   - `cd servidor-http` entra na pasta do projeto.
-   - `npm install` baixa as ferramentas que o projeto precisa. Leva alguns segundos.
-   - `npm start` liga o servidor.
+4. Na aba **Ports**, abra a porta `3000` e acrescente `/api/produtos` ao endereço fornecido pelo Codespaces.
 
-5. Quando aparecer a notificação de porta, clique em **Open in Browser**. Se ela não aparecer, abra a aba **Ports** e clique no link da porta `3000`.
-6. No fim do endereço do navegador, acrescente `/api/produtos` e pressione Enter. Você verá a lista de produtos em formato JSON, que é o formato que sistemas usam para trocar dados.
+O contêiner de desenvolvimento acessa os bancos pelos nomes `mysql` e `mongo`; essas variáveis já estão configuradas no `.devcontainer`.
 
-Para parar o servidor, clique no terminal e pressione `Ctrl+C`.
+### VS Code local
 
-### Parte 2: VS Code no seu computador
+Instale Git e Node.js 24. Para testar os bancos, instale também Docker com Compose v2 e mantenha o Docker em execução (Docker Desktop no Windows/macOS). No Windows, WSL2 ou **Dev Containers: Reopen in Container** fornece o mesmo ambiente Linux usado pelo Codespaces.
 
-**O que você precisa instalar antes:**
+```bash
+git clone https://github.com/paulotavaresanalytics/introducao_nodejs.git
+cd introducao_nodejs
+npm run setup
+npm test
+```
 
-- [Git](https://git-scm.com/): ferramenta que baixa projetos do GitHub.
-- [Node.js](https://nodejs.org/) na versão LTS recente (os projetos foram testados com a versão 22).
-- [VS Code](https://code.visualstudio.com/): o editor de código.
+`npm run setup` instala as dependências com `npm ci`, respeitando os lockfiles. Para testar os cinco exemplos com bancos reais:
 
-**Passo a passo:**
+```bash
+npm run db:up
+npm run test:all
+```
 
-1. Abra o terminal do seu computador (no Windows, use o *Prompt de Comando* ou o *PowerShell*; no macOS e Linux, use o *Terminal*) e clone o repositório. Clonar significa copiar o projeto do GitHub para o seu computador:
+O Compose cria o schema MySQL e aguarda os dois bancos ficarem disponíveis. Os testes de integração usam registros próprios e os removem ao terminar; use bancos de desenvolvimento. Sem bancos em execução, `npm run test:integration` falha, em vez de ignorar os testes.
 
-   ```bash
-   git clone https://github.com/paulotavaresanalytics/introducao_nodejs.git
-   ```
+Para iniciar a API de produtos:
 
-2. Entre na pasta que foi criada e abra o projeto no VS Code:
+```bash
+cd servidor-http
+npm start
+```
 
-   ```bash
-   cd introducao_nodejs
-   code .
-   ```
+Abra `http://localhost:3000/api/produtos`. Para parar, use `Ctrl+C`.
 
-   Se o comando `code .` não funcionar, abra o VS Code manualmente e escolha **File → Open Folder**, depois selecione a pasta `introducao_nodejs`.
+### O que os testes demonstram
 
-   Também é possível clonar pelo próprio VS Code: pressione `Ctrl+Shift+P` (ou `Cmd+Shift+P` no macOS), digite **Git: Clone**, cole o endereço do repositório e escolha onde salvá-lo.
+| Comando na raiz | Escopo |
+|---|---|
+| `npm test` | Boas-vindas, rotas Express, CRUD de produtos, entrada JSON ausente e respostas 404 |
+| `npm run test:integration` | CRUD persistido em MySQL e MongoDB, IDs inexistentes e validação de criação no MongoDB |
+| `npm run test:all` | As duas suítes acima |
 
-3. No VS Code, abra o terminal integrado (atalho `Ctrl+'`) e rode, dentro da pasta do projeto:
+A automação em `.github/workflows/tests.yml` instala dependências, inicia bancos reais e executa ambas as suítes em cada push e pull request. Um resultado local não comprova uma execução no GitHub: consulte a aba **Actions** para ver o resultado de cada commit.
 
-   ```bash
-   cd servidor-http
-   npm install
-   npm start
-   ```
+### Limitações e dados de desenvolvimento
 
-4. Acesse [http://localhost:3000/api/produtos](http://localhost:3000/api/produtos) no navegador. Você verá a mesma lista de produtos da Parte 1.
-
-Para parar o servidor, volte ao terminal e pressione `Ctrl+C`.
+- Os exemplos usam a porta `3000` por padrão: execute um por vez ou defina a variável `PORT` para usar portas diferentes. Os testes escolhem portas livres automaticamente.
+- A API de produtos mantém dados em memória; reiniciar restaura os produtos iniciais.
+- As APIs são exercícios didáticos, sem autenticação. As credenciais do Compose são públicas e exclusivas para desenvolvimento; os bancos são publicados apenas na interface local.
+- `npm run db:down` para os bancos e preserva os volumes. `docker compose down -v` **apaga os dados** dos volumes deste projeto; use apenas para recriar bancos descartáveis.
+- Se as portas `3306` ou `27017` estiverem ocupadas, pare os serviços locais conflitantes antes de usar o Compose.
 
 ---
 
@@ -133,19 +135,17 @@ Os projetos de API têm arquivos `request/testes.rest` com os pedidos já escrit
 | `node-banco/` | `npm install` e `npm start` | Um servidor MySQL (veja abaixo) |
 | `node-mogoose/` | `npm install` e `npm start` | Um servidor MongoDB rodando em `localhost:27017` |
 
-Os quatro primeiros projetos rodam sozinhos. Os dois últimos precisam de um banco de dados, e isso é opcional para entender o código.
+Os três primeiros projetos da tabela rodam sem banco de dados. Os dois últimos precisam dos respectivos bancos; eles são opcionais para estudar os exemplos básicos.
 
-### Preparando o banco do `node-banco` (MySQL)
+### Preparando o `node-banco` (MySQL)
 
-1. Com o MySQL instalado, crie o banco, a tabela e o usuário executando o script `bancos_de_dados/cadastro_usuarios.sql`. Antes, troque `troque_esta_senha` por uma senha de sua escolha.
-2. Na pasta `node-banco/`, copie o arquivo `.env.example` e renomeie a cópia para `.env`. Nele, coloque a mesma senha usada no script.
-3. Rode `npm start` na pasta `node-banco/`.
+Na raiz, rode `npm run db:up`. Para iniciar a API manualmente no VS Code local, copie `node-banco/.env.example` para `node-banco/.env` e use `DB_PASSWORD=local_dev_only`, correspondente ao Compose. Depois execute `npm start` dentro de `node-banco`. O arquivo `.env` é ignorado pelo Git. No Codespaces, as variáveis já são fornecidas pelo contêiner.
 
-Se o `.env` não existir, o projeto usa os valores padrão do código. Ainda assim, o banco precisa estar criado com a senha correspondente.
+Para MySQL instalado sem Docker, execute `bancos_de_dados/cadastro_usuarios.sql` como administrador, escolhendo sua senha, e preencha o `.env` com os mesmos dados. As variáveis disponíveis são `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` e `DB_NAME`.
 
 ### Preparando o `node-mogoose` (MongoDB)
 
-A conexão aponta para `mongodb://localhost:27017/exemplo_nosql`. Se você tiver o MongoDB rodando localmente, basta executar `npm start`. Para usar outro servidor, como o MongoDB Atlas, altere a string de conexão em `node-mogoose/config/db.js`.
+O mesmo `npm run db:up` inicia o MongoDB. Execute `npm start` dentro de `node-mogoose`. O endereço padrão é `mongodb://127.0.0.1:27017/exemplo_nosql`. Para outro servidor, defina `MONGODB_URI` no ambiente do processo; não é necessário alterar o código. No Codespaces, essa variável já aponta para o serviço `mongo`.
 
 ---
 

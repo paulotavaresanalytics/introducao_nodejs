@@ -3,5 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "description": "Exercícios de Node.js: do servidor HTTP nativo às APIs com Express, MySQL e MongoDB. Cada pasta é um projeto independente; entre em uma delas e rode npm install.",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "setup": "node scripts/install.mjs",
+    "test": "node --test tests/http.test.js",
+    "test:integration": "node --test tests/databases.test.js",
+    "test:all": "npm test && npm run test:integration",
+    "db:up": "docker compose up -d --wait",
+    "db:down": "docker compose down"
+  }
 }

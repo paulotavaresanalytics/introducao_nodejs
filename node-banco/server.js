@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const usuariosRoutes = require("./routes/usuarios");
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
     
 // Middleware para interpretar JSON no corpo da requisição
 app.use(express.json());

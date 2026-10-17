@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan"); // Importa o Morgan para log de requisições
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 // Configura o Morgan como middleware global para log de requisições
 app.use(morgan("dev"));
 // Rota para a página inicial

@@ -1,0 +1,15 @@
+{
+  "name": "Introdução Node.js — APIs e bancos",
+  "dockerComposeFile": [
+    "../compose.yaml",
+    "compose.yaml"
+  ],
+  "service": "dev",
+  "workspaceFolder": "/workspaces/introducao_nodejs",
+  "remoteUser": "node",
+  "forwardPorts": [
+    3000
+  ],
+  "postCreateCommand": "npm run setup",
+  "shutdownAction": "stopCompose"
+}
